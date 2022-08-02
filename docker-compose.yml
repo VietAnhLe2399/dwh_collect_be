@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db:
+    image: "postgres:14.1-alpine"
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - dwh_collect
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - ./dwh_collect/settings/.env
+    networks:
+      - dwh_collect
+
+#volumes:
+#   pgdata:
+#      driver: local
+
+networks:
+  dwh_collect:
+    driver: bridge

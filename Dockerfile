@@ -8,4 +8,6 @@ RUN pip3 install -r /app/requirements.txt
 
 COPY docker-run.sh /code/docker-run.sh
 WORKDIR /app
-CMD ./docker-run.sh
+RUN ["chmod", "+x", "./docker-run.sh"]
+
+ENTRYPOINT ["sh", "./docker-run.sh"]

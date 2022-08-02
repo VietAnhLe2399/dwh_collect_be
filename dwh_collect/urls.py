@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+import dwh_collect.views as tv
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('get-system-time/', tv.get_system_time, name='get-system-time')
 ]
